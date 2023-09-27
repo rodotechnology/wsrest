@@ -1,0 +1,26 @@
+# Esta línea activa el motor de reescritura de URL. Sin esta línea, las reglas de reescritura no tendrán efecto
+
+RewriteEngine On
+
+# Esta regla de reescritura se encarga de redirigir las URLs que consisten en una cadena de letras, guiones bajos y guiones.
+# Por ejemplo, si tienes una URL como http://ejemplo.com/mi-pagina, esta regla la reescribirá internamente como
+# http://ejemplo.com/index.php?action=mi-pagina.
+# La parte entre paréntesis ^([a-zA-Z_-]*) captura cualquier secuencia de letras mayúsculas o minúsculas, guiones bajos y guiones.
+# Luego, esta secuencia se pasa como un parámetro llamado action a index.php.
+
+RewriteRule ^([a-zA-Z_-]*)$ index.php?action=$1
+
+# Esta regla es similar a la anterior, pero maneja URLs con dos partes.
+# Captura una secuencia de letras, guiones bajos y guiones como la primera parte, y un número como la segunda parte.
+# Por ejemplo, si tienes una URL como http://ejemplo.com/mi-pagina/123, esta regla la reescribirá internamente
+# como http://ejemplo.com/index.php?action=mi-pagina&id=123. # El [QSA,L] al final de la regla significa:
+
+# [QSA]: Significa "Query String Append" (Añadir cadena de consulta).
+# Esto permite que las cadenas de consulta (por ejemplo, ?param=valor) existentes en la URL original se conserven y
+# se añadan a la nueva URL reescrita.
+
+# [L]: Significa "Last" (Última).
+# Indica que esta regla es la última que se debe aplicar si se cumple.
+# Si una URL coincide con esta regla, las reglas posteriores no se procesarán.
+
+RewriteRule ^([a-zA-Z_-]*)/([0-9]+) index.php?action=$1&id=$2 [QSA,L]
